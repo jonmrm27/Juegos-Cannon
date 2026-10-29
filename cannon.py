@@ -40,9 +40,8 @@ def draw():
         goto(target.x, target.y)
         dot(20, 'blue')
 
-    if inside(ball):
-        goto(ball.x, ball.y)
-        dot(6, 'red')
+    goto(ball.x, ball.y)
+    dot(6, 'red')
 
     update()
 
@@ -56,10 +55,22 @@ def move():
 
     for target in targets:
         target.x -= 0.5
+        if target.x < -200:
+            target.x = 200
+            target.y = randrange(-150, 150)
 
     if inside(ball):
         speed.y -= 0.35
         ball.move(speed)
+        if ball.x < -200:
+            ball.x = 200
+        elif ball.x > 200:
+            ball.x = -200
+        if ball.y < -200:
+            ball.y = 200
+        elif ball.y > 200:
+            ball.y = -200
+
 
     dupe = targets.copy()
     targets.clear()
@@ -70,9 +81,7 @@ def move():
 
     draw()
 
-    for target in targets:
-        if not inside(target):
-            return
+    
 
     ontimer(move, 25)
 
